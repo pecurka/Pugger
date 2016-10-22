@@ -8,4 +8,4 @@ The main goal is to create a Frogger replica with the playable character being a
 # 22.10.2016 Update Notes:
 Added main file for project.
 Added MakeFile.
-Made initial window for project.
+Make initial window for project.
