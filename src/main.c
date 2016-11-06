@@ -1,14 +1,19 @@
 #include <stdlib.h>
+#include <stdio.h>
 #include <GL/glut.h>
 
 
 /* Deklaracije callback funkcija. */
 static void on_reshape(int width, int height);
 static void on_display(void);
+static void on_keyboard(unsigned char key, int x, int y);
 
 
 /* Metod koji crta model psa */
 static void draw_dog(void);
+
+/*Deklaracija promenljive za rotaciju modela*/
+static int rotation;
 
 
 int main(int argc, char **argv) {
@@ -24,11 +29,17 @@ int main(int argc, char **argv) {
     /* Registruju se funkcije za obradu dogadjaja. */
     glutReshapeFunc(on_reshape);
     glutDisplayFunc(on_display);
+    glutKeyboardFunc(on_keyboard);
 
 
     /* Obavlja se OpenGL inicijalizacija. */
     glClearColor(0, 0, 0, 0);
     glEnable(GL_DEPTH_TEST);
+    glEnable(GL_CULL_FACE);
+    glCullFace(GL_BACK);
+
+    /*Inicijalizuju se globalne promenljive*/
+    rotation = 0;
 
     /* Ulazi se u glavnu petlju. */
     glutMainLoop();
@@ -47,6 +58,37 @@ static void on_reshape(int width, int height) {
     gluPerspective(45, (float) width / height, 1, 1500);
 }
 
+static void on_keyboard(unsigned char key, int x, int y)
+{
+    switch (key) {
+    case 27:
+      /* Zavrsava se program. */
+      exit(0);
+      break;
+    /* Menja se rotacija u odnosu na stisnuto dugme i forsira ponovno crtanje scene. */
+    case 'w':
+    case 'W':
+      rotation = 0;
+      glutPostRedisplay();
+      break;
+    case 'a':
+    case 'A':
+      rotation = 90;
+      glutPostRedisplay();
+      break;
+    case 's':
+    case 'S':
+      rotation = 180;
+      glutPostRedisplay();
+      break;
+    case 'd':
+    case 'D':
+      rotation = 270;
+      glutPostRedisplay();
+      break;
+    }
+}
+
 static void on_display(void) {
     /* Postavlja se boja svih piksela na zadatu boju pozadine. */
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -54,14 +96,13 @@ static void on_display(void) {
     /* Postavlja se vidna tacka. */
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
-    gluLookAt(5, 5, 10, 0, 0, 0, 0, 1, 0);
-
+    gluLookAt(-20, 10, 0, 0, 0, 0, 1, 0, 0);
 
     /* Postavljamo sliku psa */
     glPushMatrix();
 
-
-    draw_dog();
+      glRotatef(rotation, 0, 1, 0);
+      draw_dog();
 
     glPopMatrix();
     /* Postavlja se nova slika u prozor. */
