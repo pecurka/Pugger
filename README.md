@@ -17,10 +17,10 @@ Make initial window for project. <br />
 
 # 30.10.2016 Update Notes:
 Change .gitignore for project. <br />
-Made dog model using 3D objects. <br />
+Made dog model using 3D objects. <br /> <br />
 ![alt tag](https://github.com/MATF-RG16/RG16-006-plugger/blob/master/img/screenshot_30_10.png)
 
 # 30.10.2016 Update Notes:
 Add keyboard commands. On ESC program will exit. Dog model rotates on WASD in the wanted direction. <br />
-Change viewpoint <br />
+Change viewpoint <br /> <br />
 ![alt tag](https://github.com/MATF-RG16/RG16-006-plugger/blob/master/img/screenshot_6_11_2016.png)
