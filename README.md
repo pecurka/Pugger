@@ -26,5 +26,5 @@ Change viewpoint <br /> <br />
 ![alt tag](https://github.com/MATF-RG16/RG16-006-plugger/blob/master/img/screenshot_6_11_2016.png)
 
 # 04.12.2016 Update Notes:
-Add floor on which the game will be set. <br />
+Add floor on which the game will be set. <br /> <br />
 ![alt tag](https://github.com/MATF-RG16/RG16-006-plugger/blob/master/img/screenshot_2016_12_04.png)
