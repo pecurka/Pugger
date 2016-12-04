@@ -11,6 +11,7 @@ static void on_keyboard(unsigned char key, int x, int y);
 
 /* Metod koji crta model psa */
 static void draw_dog(void);
+static void draw_floor(void);
 
 /*Deklaracija promenljive za rotaciju modela*/
 static int rotation;
@@ -22,7 +23,7 @@ int main(int argc, char **argv) {
     glutInitDisplayMode(GLUT_RGB | GLUT_DEPTH | GLUT_DOUBLE);
 
     /* Kreira se prozor. */
-    glutInitWindowSize(800, 800);
+    glutInitWindowSize(1300, 800);
     glutInitWindowPosition(200, 100);
     glutCreateWindow(argv[0]);
 
@@ -35,8 +36,11 @@ int main(int argc, char **argv) {
     /* Obavlja se OpenGL inicijalizacija. */
     glClearColor(0, 0, 0, 0);
     glEnable(GL_DEPTH_TEST);
-    glEnable(GL_CULL_FACE);
-    glCullFace(GL_BACK);
+    glEnable(GL_NORMALIZE);
+
+    /* Enable lighting */
+    /*glEnable(GL_LIGHTING);
+    glEnable(GL_LIGHT0);*/
 
     /*Inicijalizuju se globalne promenljive*/
     rotation = 0;
@@ -96,11 +100,16 @@ static void on_display(void) {
     /* Postavlja se vidna tacka. */
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
-    gluLookAt(-20, 10, 0, 0, 0, 0, 1, 0, 0);
+    gluLookAt(-30, 10, 0, 0, 0, 0, 1, 0, 0);
+
+    /*Postavljamo okruzenje*/
+    draw_floor();
+
 
     /* Postavljamo sliku psa */
-    glPushMatrix();
 
+    glPushMatrix();
+      glTranslatef(-10,0,0);
       glRotatef(rotation, 0, 1, 0);
       draw_dog();
 
@@ -236,4 +245,20 @@ static void draw_dog(void) {
 
 
 #undef glutCube
+}
+
+static void draw_floor(void) {
+
+  glPushMatrix();
+  glTranslatef(90, 0, 0);
+  glBegin(GL_QUADS);
+    /* Floor */
+    glColor3f(0,1,0);
+    glVertex3f(-60,-30,-30);
+    glVertex3f(120,-30,-30);
+    glVertex3f(120,-30,30);
+    glVertex3f(-60,-30, 30);
+  glEnd();
+
+  glPopMatrix();
 }
