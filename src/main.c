@@ -9,7 +9,7 @@ static void on_display(void);
 static void on_keyboard(unsigned char key, int x, int y);
 
 
-/* Metod koji crta model psa */
+/* Metod koji crta model psa i poda*/
 static void draw_dog(void);
 static void draw_floor(void);
 
@@ -38,9 +38,16 @@ int main(int argc, char **argv) {
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_NORMALIZE);
 
-    /* Enable lighting */
-    /*glEnable(GL_LIGHTING);
-    glEnable(GL_LIGHT0);*/
+    /* Pali se osvetljenje */
+    float diffuse_light[] = {1.0f, 1.0f, 1.0f, 1.0f};
+    float specular_light[] = {1.0f, 1.0f, 0.0f, 1.0f};
+
+    glLightfv(GL_LIGHT0, GL_DIFFUSE, diffuse_light);
+    glColorMaterial(GL_FRONT, GL_DIFFUSE);
+
+    glEnable(GL_LIGHTING);
+    glEnable(GL_LIGHT0);
+    glEnable(GL_COLOR_MATERIAL);
 
     /*Inicijalizuju se globalne promenljive*/
     rotation = 0;
@@ -100,20 +107,23 @@ static void on_display(void) {
     /* Postavlja se vidna tacka. */
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
-    gluLookAt(-30, 10, 0, 0, 0, 0, 1, 0, 0);
+    gluLookAt(-20, 30, 0, 0, 0, 0, 1, 0, 0);
+
+    /*Postavlja se pravac iz koga dolazi svetlost*/
+    float l0pos[] = {-30.0f, 60.0f, 0.0f, 0.0f};
+    glLightfv(GL_LIGHT0, GL_POSITION, l0pos);
 
     /*Postavljamo okruzenje*/
     draw_floor();
 
 
     /* Postavljamo sliku psa */
-
     glPushMatrix();
-      glTranslatef(-10,0,0);
+      glTranslatef(0, 1.6, 0);
       glRotatef(rotation, 0, 1, 0);
       draw_dog();
-
     glPopMatrix();
+    
     /* Postavlja se nova slika u prozor. */
     glutSwapBuffers();
 }
@@ -249,15 +259,15 @@ static void draw_dog(void) {
 
 static void draw_floor(void) {
 
+  glColor3f(0,1,0);
   glPushMatrix();
-  glTranslatef(90, 0, 0);
   glBegin(GL_QUADS);
     /* Floor */
-    glColor3f(0,1,0);
-    glVertex3f(-60,-30,-30);
-    glVertex3f(120,-30,-30);
-    glVertex3f(120,-30,30);
-    glVertex3f(-60,-30, 30);
+    glNormal3f(0, 1, 0);
+    glVertex3f(-60,0,-30);
+    glVertex3f(120,0,-30);
+    glVertex3f(120,0,30);
+    glVertex3f(-60,0, 30);
   glEnd();
 
   glPopMatrix();
