@@ -1,20 +1,26 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <GL/glut.h>
+#include <time.h>
 
 
 /* Deklaracije callback funkcija. */
 static void on_reshape(int width, int height);
 static void on_display(void);
 static void on_keyboard(unsigned char key, int x, int y);
+static void on_timer(int value);
 
 
 /* Metod koji crta model psa i poda*/
 static void draw_dog(void);
 static void draw_floor(void);
 
-/*Deklaracija promenljive za rotaciju modela*/
+/*Deklaracija promenljive za rotaciju i kretanje modela psa*/
 static int rotation;
+static int movementX;
+static int movementY;
+static int previousMovementX;
+static int previousMovementY;
 
 
 int main(int argc, char **argv) {
@@ -40,7 +46,6 @@ int main(int argc, char **argv) {
 
     /* Pali se osvetljenje */
     float diffuse_light[] = {1.0f, 1.0f, 1.0f, 1.0f};
-    float specular_light[] = {1.0f, 1.0f, 0.0f, 1.0f};
 
     glLightfv(GL_LIGHT0, GL_DIFFUSE, diffuse_light);
     glColorMaterial(GL_FRONT, GL_DIFFUSE);
@@ -51,6 +56,10 @@ int main(int argc, char **argv) {
 
     /*Inicijalizuju se globalne promenljive*/
     rotation = 0;
+    movementX = -15;
+    movementY = 0;
+    previousMovementX = movementX;
+    previousMovementY = movementY;
 
     /* Ulazi se u glavnu petlju. */
     glutMainLoop();
@@ -71,33 +80,68 @@ static void on_reshape(int width, int height) {
 
 static void on_keyboard(unsigned char key, int x, int y)
 {
-    switch (key) {
-    case 27:
-      /* Zavrsava se program. */
-      exit(0);
-      break;
-    /* Menja se rotacija u odnosu na stisnuto dugme i forsira ponovno crtanje scene. */
-    case 'w':
-    case 'W':
-      rotation = 0;
-      glutPostRedisplay();
-      break;
-    case 'a':
-    case 'A':
-      rotation = 90;
-      glutPostRedisplay();
-      break;
-    case 's':
-    case 'S':
-      rotation = 180;
-      glutPostRedisplay();
-      break;
-    case 'd':
-    case 'D':
-      rotation = 270;
-      glutPostRedisplay();
-      break;
-    }
+  switch (key) {
+  case 27:
+    /* Zavrsava se program. */
+    exit(0);
+    break;
+  case 'w':
+  case 'W':
+    /* pamti se prethodna pozicija i poziva se funkcija za iscrtavanje nove */
+    previousMovementX = movementX;
+    glutTimerFunc(20, on_timer, 0);
+    break;
+  case 'a':
+  case 'A':
+    previousMovementY = movementY;
+    glutTimerFunc(20, on_timer, 1);
+    break;
+  case 's':
+  case 'S':
+    previousMovementX = movementX;
+    glutTimerFunc(20, on_timer, 2);
+    break;
+  case 'd':
+  case 'D':
+    previousMovementY = movementY;
+    glutTimerFunc(20, on_timer, 3);
+    break;
+  }
+}
+
+static void on_timer(int value)
+{
+  /* Gledamo koje dugme je pritisnuto i pomeramo psa u potrebnom pravcu i rotiramo ga u potreban smer */
+  switch (value) {
+  case 0:
+    rotation = 0;
+    movementX += 1;
+    glutPostRedisplay();
+    if(previousMovementX + 8 != movementX) /* Da bi kretanje izgleda 'glatko' teramo da ponavlja isrtavanje dok se ne pomeri do zeljene lokacije */
+      glutTimerFunc(20, on_timer, 0);
+    break;
+  case 1:
+    rotation = 90;
+    movementY -= 1;
+    glutPostRedisplay();
+    if(previousMovementY - 8 != movementY)
+      glutTimerFunc(20, on_timer, 1);
+    break;
+  case 2:
+    rotation = 180;
+    movementX -= 1;
+    glutPostRedisplay();
+    if(previousMovementX - 8 != movementX)
+      glutTimerFunc(20, on_timer, 2);
+    break;
+  case 3:
+    rotation = 270;
+    movementY += 1;
+    glutPostRedisplay();
+    if(previousMovementY + 8 != movementY)
+      glutTimerFunc(20, on_timer, 3);
+    break;
+  }
 }
 
 static void on_display(void) {
@@ -107,7 +151,7 @@ static void on_display(void) {
     /* Postavlja se vidna tacka. */
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
-    gluLookAt(-20, 30, 0, 0, 0, 0, 1, 0, 0);
+    gluLookAt(-30, 40, 0, 0, 0, 0, 1, 0, 0);
 
     /*Postavlja se pravac iz koga dolazi svetlost*/
     float l0pos[] = {-30.0f, 60.0f, 0.0f, 0.0f};
@@ -119,11 +163,12 @@ static void on_display(void) {
 
     /* Postavljamo sliku psa */
     glPushMatrix();
-      glTranslatef(0, 1.6, 0);
+      glTranslatef(movementX, 1.6*1.5, movementY);
       glRotatef(rotation, 0, 1, 0);
+      glScalef(1.5, 1.5, 1.5);
       draw_dog();
     glPopMatrix();
-    
+
     /* Postavlja se nova slika u prozor. */
     glutSwapBuffers();
 }
@@ -259,16 +304,33 @@ static void draw_dog(void) {
 
 static void draw_floor(void) {
 
-  glColor3f(0,1,0);
   glPushMatrix();
-  glBegin(GL_QUADS);
-    /* Floor */
-    glNormal3f(0, 1, 0);
-    glVertex3f(-60,0,-30);
-    glVertex3f(120,0,-30);
-    glVertex3f(120,0,30);
-    glVertex3f(-60,0, 30);
-  glEnd();
+    /* Trava */
+    glColor3f(0,1,0);
+    glBegin(GL_QUADS);
+      glNormal3f(0, 1, 0);
+      glVertex3f(-20,0,-30);
+      glVertex3f(-10,0,-30);
+      glVertex3f(-10,0,30);
+      glVertex3f(-20,0,30);
+    glEnd();
 
+    glBegin(GL_QUADS);
+      glNormal3f(0, 1, 0);
+      glVertex3f(20,0,-30);
+      glVertex3f(40,0,-30);
+      glVertex3f(40,0,30);
+      glVertex3f(20,0,30);
+    glEnd();
+
+    /* Autoput */
+    glColor3f(0.2,0.2,0.2);
+    glBegin(GL_QUADS);
+      glNormal3f(0, 1, 0);
+      glVertex3f(-10,0,-30);
+      glVertex3f(20,0,-30);
+      glVertex3f(20,0,30);
+      glVertex3f(-10,0,30);
+    glEnd();
   glPopMatrix();
 }
