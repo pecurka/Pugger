@@ -28,3 +28,10 @@ Change viewpoint <br /> <br />
 # 04.12.2016 Update Notes:
 Add floor on which the game will be set. <br /> <br />
 ![alt tag](https://github.com/MATF-RG16/RG16-006-plugger/blob/master/img/screenshot_2016_12_04.png)
+
+# 17.12.2016 Update Notes:
+Add lighting. <br />
+Edit view perspective. <br />
+Change floor into grass and asphalt parts. <br />
+Add Pugger movement. <br /> <br />
+![alt tag](https://github.com/MATF-RG16/RG16-006-plugger/blob/master/img/Screenshot_2016_12_17.png)

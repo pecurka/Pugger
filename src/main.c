@@ -3,13 +3,11 @@
 #include <GL/glut.h>
 #include <time.h>
 
-
 /* Deklaracije callback funkcija. */
 static void on_reshape(int width, int height);
 static void on_display(void);
 static void on_keyboard(unsigned char key, int x, int y);
 static void on_timer(int value);
-
 
 /* Metod koji crta model psa i poda*/
 static void draw_dog(void);
@@ -38,12 +36,6 @@ int main(int argc, char **argv) {
     glutDisplayFunc(on_display);
     glutKeyboardFunc(on_keyboard);
 
-
-    /* Obavlja se OpenGL inicijalizacija. */
-    glClearColor(0, 0, 0, 0);
-    glEnable(GL_DEPTH_TEST);
-    glEnable(GL_NORMALIZE);
-
     /* Pali se osvetljenje */
     float diffuse_light[] = {1.0f, 1.0f, 1.0f, 1.0f};
 
@@ -61,12 +53,16 @@ int main(int argc, char **argv) {
     previousMovementX = movementX;
     previousMovementY = movementY;
 
+    /* Obavlja se OpenGL inicijalizacija. */
+    glClearColor(0, 0, 0, 0);
+    glEnable(GL_DEPTH_TEST);
+    glEnable(GL_NORMALIZE);
+
     /* Ulazi se u glavnu petlju. */
     glutMainLoop();
 
     return 0;
 }
-
 
 static void on_reshape(int width, int height) {
     /* Postavlja se viewport. */
@@ -117,28 +113,28 @@ static void on_timer(int value)
     rotation = 0;
     movementX += 1;
     glutPostRedisplay();
-    if(previousMovementX + 8 != movementX) /* Da bi kretanje izgleda 'glatko' teramo da ponavlja isrtavanje dok se ne pomeri do zeljene lokacije */
+    if(previousMovementX + 5 != movementX) /* Da bi kretanje izgleda 'glatko' teramo da ponavlja isrtavanje dok se ne pomeri do zeljene lokacije */
       glutTimerFunc(20, on_timer, 0);
     break;
   case 1:
     rotation = 90;
     movementY -= 1;
     glutPostRedisplay();
-    if(previousMovementY - 8 != movementY)
+    if(previousMovementY - 5 != movementY)
       glutTimerFunc(20, on_timer, 1);
     break;
   case 2:
     rotation = 180;
     movementX -= 1;
     glutPostRedisplay();
-    if(previousMovementX - 8 != movementX)
+    if(previousMovementX - 5 != movementX)
       glutTimerFunc(20, on_timer, 2);
     break;
   case 3:
     rotation = 270;
     movementY += 1;
     glutPostRedisplay();
-    if(previousMovementY + 8 != movementY)
+    if(previousMovementY + 5 != movementY)
       glutTimerFunc(20, on_timer, 3);
     break;
   }
@@ -310,8 +306,8 @@ static void draw_floor(void) {
     glBegin(GL_QUADS);
       glNormal3f(0, 1, 0);
       glVertex3f(-20,0,-30);
-      glVertex3f(-10,0,-30);
-      glVertex3f(-10,0,30);
+      glVertex3f(-12,0,-30);
+      glVertex3f(-12,0,30);
       glVertex3f(-20,0,30);
     glEnd();
 
@@ -327,10 +323,10 @@ static void draw_floor(void) {
     glColor3f(0.2,0.2,0.2);
     glBegin(GL_QUADS);
       glNormal3f(0, 1, 0);
-      glVertex3f(-10,0,-30);
+      glVertex3f(-12,0,-30);
       glVertex3f(20,0,-30);
       glVertex3f(20,0,30);
-      glVertex3f(-10,0,30);
+      glVertex3f(-12,0,30);
     glEnd();
   glPopMatrix();
 }
