@@ -2,12 +2,22 @@
 #include <stdio.h>
 #include <GL/glut.h>
 #include <time.h>
+#include "image.h"
+
+/* Imena fajlova sa teksturama. */
+#define GRASSTEXTURE "grass.bmp"
+
+/* Identifikatori tekstura. */
+static GLuint grassTexture;
 
 /* Deklaracije callback funkcija. */
 static void on_reshape(int width, int height);
 static void on_display(void);
 static void on_keyboard(unsigned char key, int x, int y);
 static void on_timer(int value);
+
+/* Inicijalizacija teksture trave */
+static void initializeTexture(void);
 
 /* Metod koji crta model psa i poda*/
 static void draw_dog(void);
@@ -57,11 +67,44 @@ int main(int argc, char **argv) {
     glClearColor(0, 0, 0, 0);
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_NORMALIZE);
+    glEnable(GL_TEXTURE_2D);
+
+    initializeTexture();
 
     /* Ulazi se u glavnu petlju. */
     glutMainLoop();
 
     return 0;
+}
+
+static void initializeTexture(void)
+{
+   /* Inicijalizuje se objekat koji ce sadrzati teksture ucitane iz fajla */
+    Image *image = image_init(0, 0);
+
+    /* Podesava se rezim iscrtavanja tekstura tako da boje na teksturi potpuno odredjuju boju objekata */
+    glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
+
+    /* Kreira se tekstura */
+    image_read(image, GRASSTEXTURE);
+
+    /* Generisu se identifikatori teksture i inicijalizuje tekstura*/
+    glGenTextures(1, &grassTexture);
+
+    glBindTexture(GL_TEXTURE_2D, grassTexture);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB,
+                 image->width, image->height, 0,
+                 GL_RGB, GL_UNSIGNED_BYTE, image->pixels);
+
+    /* Iskljucujemo aktivnu teksturu */
+    glBindTexture(GL_TEXTURE_2D, 0);
+
+    /* Unistava se objekat za citanje tekstura iz fajla. */
+    image_done(image);
 }
 
 static void on_reshape(int width, int height) {
@@ -300,24 +343,31 @@ static void draw_dog(void) {
 
 static void draw_floor(void) {
 
+  /* Trava */
+  /* Gasi se osvetljenje i pali se tekstura trave */
+  glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
+  glBindTexture(GL_TEXTURE_2D, grassTexture);
+
   glPushMatrix();
-    /* Trava */
-    glColor3f(0,1,0);
     glBegin(GL_QUADS);
       glNormal3f(0, 1, 0);
-      glVertex3f(-20,0,-30);
-      glVertex3f(-12,0,-30);
-      glVertex3f(-12,0,30);
-      glVertex3f(-20,0,30);
+      glTexCoord2f(0, 0); glVertex3f(-20,0,-30);
+      glTexCoord2f(10, 0); glVertex3f(-12,0,-30);
+      glTexCoord2f(10, 10); glVertex3f(-12,0,30);
+      glTexCoord2f(0, 10); glVertex3f(-20,0,30);
     glEnd();
 
     glBegin(GL_QUADS);
       glNormal3f(0, 1, 0);
-      glVertex3f(20,0,-30);
-      glVertex3f(40,0,-30);
-      glVertex3f(40,0,30);
-      glVertex3f(20,0,30);
+      glTexCoord2f(0, 0); glVertex3f(20,0,-30);
+      glTexCoord2f(10, 0); glVertex3f(40,0,-30);
+      glTexCoord2f(10, 10);glVertex3f(40,0,30);
+      glTexCoord2f(0, 10); glVertex3f(20,0,30);
     glEnd();
+
+    /* Gasi se tekstura i ponovo se pokrece osvetljenje*/
+    glBindTexture(GL_TEXTURE_2D, 0);
+    glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 
     /* Autoput */
     glColor3f(0.2,0.2,0.2);
