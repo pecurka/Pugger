@@ -15,17 +15,8 @@ void draw_dog(void) {
     glutCube(1);
   glPopMatrix();
 
-  /* Crtamo rep */
-  glPushMatrix();
-    glColor3f(.3, .2, .1);
-    glTranslatef(-1.5, .4, 0);
-    glScalef(1, .2, .2);
-    glutCube(1);
-  glPopMatrix();
-
   /* Crtamo noge */
   glPushMatrix();
-    glColor3f(.75, .6, .4);
     glTranslatef(-.7, -1, -.3);
     glScalef(.3, 1, .3);
     glutCube(1);
@@ -56,9 +47,18 @@ void draw_dog(void) {
     glutCube(1);
   glPopMatrix();
 
+  /* Postavljamo boju njuske, repa i usiju */
+  glColor3f(.3, .2, .1);
+
+  /* Crtamo rep */
+  glPushMatrix();
+    glTranslatef(-1.5, .4, 0);
+    glScalef(1, .2, .2);
+    glutCube(1);
+  glPopMatrix();
+
   /* Crtamo njusku */
   glPushMatrix();
-    glColor3f(.3, .2, .1);
     glTranslatef(1.5, .6, 0);
     glScalef(.4, .4, .4);
     glutCube(1);
@@ -66,7 +66,6 @@ void draw_dog(void) {
 
   /* Crtamo usi */
   glPushMatrix();
-    glColor3f(.3, .2, .1);
     glTranslatef(1, 1.2, -.3);
     glScalef(.1, .1, .1);
     glBegin( GL_TRIANGLES );
@@ -114,15 +113,14 @@ void draw_dog(void) {
   glPopMatrix();
 
   /* Crtamo oci */
+  glColor3f(0, 0, 0);
   glPushMatrix();
-    glColor3f(0, 0, 0);
     glTranslatef(1.35, .9, -.3);
     glScalef(.1, .1, .1);
     glutSolidSphere(1, 20, 20);
   glPopMatrix();
 
   glPushMatrix();
-    glColor3f(0, 0, 0);
     glTranslatef(1.35, .9, .3);
     glScalef(.1, .1, .1);
     glutSolidSphere(1, 20, 20);
