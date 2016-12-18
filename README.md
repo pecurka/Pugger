@@ -5,9 +5,16 @@ Pugger
 This is my project for my Computer Graphics class. <br />
 The main goal is to create a Frogger replica with the playable character being a pug using OpenGL and C. <br />
 
-# Run program on Linux
-Enter /src folder and run "make all". <br />
-After to run program enter "./Pugger" <br />
+# :computer: Run program on Linux
+Enter the **/src** folder and run "make". <br />
+```
+make
+``` <br />
+:exclamation: **Note:** Make sure you have the OpenGL/Glut libraries installed! <br />
+To run program enter:  <br />
+```
+./Pugger
+``` <br />
 The program exits on ESC, the dog model moves on WASD <br />
 
 # 22.10.2016 Update Notes:
