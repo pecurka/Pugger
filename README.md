@@ -38,3 +38,9 @@ Edit view perspective. <br />
 Change floor into grass and asphalt parts. <br />
 Add Pugger movement. <br /> <br />
 ![alt tag](https://github.com/MATF-RG16/RG16-006-plugger/blob/master/img/Screenshot_2016-12-17.png)
+
+# 18.12.2016 Update Notes:
+Add grass texture to grass part of scene. <br />
+Refactor code. <br />
+Make truck model. <br /> <br />
+![alt tag](https://github.com/MATF-RG16/RG16-006-plugger/blob/master/img/screenshot_2016-12-19.png)
