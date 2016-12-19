@@ -188,6 +188,7 @@ static void on_display(void) {
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
     gluLookAt(-30, 40, 0, 0, 0, 0, 1, 0, 0);
+    /*gluLookAt(-30, 5, 0, 0, 0, 0, 1, 0, 0);*/
 
     /*Postavlja se pravac iz koga dolazi svetlost*/
     float l0pos[] = {-30.0f, 60.0f, 0.0f, 0.0f};
@@ -203,6 +204,12 @@ static void on_display(void) {
       glRotatef(rotation, 0, 1, 0);
       glScalef(1.5, 1.5, 1.5);
       draw_dog();
+    glPopMatrix();
+
+    /* Postavljamo sliku kamiona */
+    glPushMatrix();
+      glTranslatef(0, 4.5, 0);
+      draw_truck();
     glPopMatrix();
 
     /* Postavlja se nova slika u prozor. */

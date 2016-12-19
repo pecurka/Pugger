@@ -1,7 +1,12 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <math.h>
 #include <GL/glut.h>
 #include "objects.h"
+
+#define PI 3.14
+
+static void draw_tire(void);
 
 void draw_dog(void) {
 #define glutCube glutSolidCube
@@ -168,4 +173,60 @@ void draw_floor(GLuint grassTexture) {
       glVertex3f(-12,0,30);
     glEnd();
   glPopMatrix();
+}
+
+static void draw_tire(void) {
+  glRotatef(90, 0, 1, 0);
+
+
+  glBegin(GL_POLYGON);
+    GLUquadricObj *obj = gluNewQuadric();
+    gluCylinder(obj, 1.0, 1, 1, 30, 30);
+  glEnd();
+}
+
+void draw_truck(void) {
+#define glutCube glutSolidCube
+
+  /* Crtamo glavni deo tela kamiona*/
+  glColor3f(1, 0, 0);
+
+  glPushMatrix();
+    glScalef(0.5, 0.7, 1);
+    glutCube(8);
+  glPopMatrix();
+
+  /* Crtamo kabinu kamiona*/
+  glColor3f(1, 1, 1);
+
+  glPushMatrix();
+    glTranslatef(0, -0.75, 6);
+    glScalef(0.5, 0.5, 0.5);
+    glutCube(8);
+  glPopMatrix();
+
+  /* Crtamo tockove */
+  glColor3f(0.05, 0.05, 0.05);
+
+  glPushMatrix();
+    glTranslatef(0.5, -3.5, 6);
+    draw_tire();
+  glPopMatrix();
+
+  glPushMatrix();
+    glTranslatef(-1.5, -3.5, 6);
+    draw_tire();
+  glPopMatrix();
+
+  glPushMatrix();
+    glTranslatef(0.5, -3.5, -2);
+    draw_tire();
+  glPopMatrix();
+
+  glPushMatrix();
+    glTranslatef(-1.5, -3.5, -2);
+    draw_tire();
+  glPopMatrix();
+
+#undef glutCube
 }

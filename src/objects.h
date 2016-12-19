@@ -8,4 +8,7 @@ void draw_dog(void);
 /* Metod koji crta model poda */
 void draw_floor(GLuint grassTexture);
 
+/* Metod koji crta model kamiona */
+void draw_truck(void);
+
 #endif
