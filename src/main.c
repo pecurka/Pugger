@@ -220,7 +220,7 @@ static void on_timer(int value)
     glutPostRedisplay();
     glutTimerFunc(50, on_timer, 5);
     break;
-  case 6: /* Postavlja se kretanje treceg kamiona */
+  case 6: /* Postavlja se kretanje drugog kamiona */
     if((movementX == 5 || movementX == 10) && truck_two_movement >  movementY - 10 && truck_two_movement < movementY + 6) {
       movementX = -15;
       movementY = 0;
