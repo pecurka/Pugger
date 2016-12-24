@@ -28,7 +28,8 @@ static int previousMovementX;
 static int previousMovementY;
 static int truck_one_movement;
 static int truck_two_movement;
-static int truck_three_movement;
+static int car_one_movement;
+static int car_two_movement;
 
 
 int main(int argc, char **argv) {
@@ -64,12 +65,14 @@ int main(int argc, char **argv) {
     previousMovementY = movementY;
     truck_one_movement = -40;
     truck_two_movement = -40;
-    truck_three_movement = -40;
+    car_one_movement = 40;
+    car_two_movement = 40;
 
     /*Pokrecemo animaciju kamiona i automobila*/
     glutTimerFunc(50, on_timer, 4);
     glutTimerFunc(50, on_timer, 5);
     glutTimerFunc(50, on_timer, 6);
+    glutTimerFunc(50, on_timer, 7);
 
     /* Obavlja se OpenGL inicijalizacija. */
     glClearColor(0, 0, 0, 0);
@@ -203,8 +206,22 @@ static void on_timer(int value)
     glutPostRedisplay();
     glutTimerFunc(50, on_timer, 4);
     break;
-  case 5: /* Postavlja se kretanje drugog kamiona */
-    if(movementX == 0 && truck_two_movement >  movementY - 10 && truck_two_movement < movementY + 6) {
+  case 5: /* Postavlja se kretanje prvog automobila */
+    if(movementX == 0 && car_one_movement >  movementY - 6 && car_one_movement < movementY + 6) {
+      movementX = -15;
+      movementY = 0;
+    }
+
+    if(car_one_movement > -40)
+      car_one_movement -= 1;
+    else
+      car_one_movement = 40;
+
+    glutPostRedisplay();
+    glutTimerFunc(50, on_timer, 5);
+    break;
+  case 6: /* Postavlja se kretanje treceg kamiona */
+    if((movementX == 5 || movementX == 10) && truck_two_movement >  movementY - 10 && truck_two_movement < movementY + 6) {
       movementX = -15;
       movementY = 0;
     }
@@ -215,21 +232,21 @@ static void on_timer(int value)
       truck_two_movement = -40;
 
     glutPostRedisplay();
-    glutTimerFunc(50, on_timer, 5);
+    glutTimerFunc(50, on_timer, 6);
     break;
-  case 6: /* Postavlja se kretanje treceg kamiona */
-    if((movementX == 5 || movementX == 10) && truck_three_movement >  movementY - 10 && truck_three_movement < movementY + 6) {
+  case 7: /* Postavlja se kretanje drugog automobila */
+    if(movementX == 15 && car_two_movement >  movementY - 6 && car_two_movement < movementY + 6) {
       movementX = -15;
       movementY = 0;
     }
 
-    if(truck_three_movement < 40)
-      truck_three_movement += 1;
+    if(car_two_movement > -40)
+      car_two_movement -= 1;
     else
-      truck_three_movement = -40;
+      car_two_movement = 40;
 
     glutPostRedisplay();
-    glutTimerFunc(50, on_timer, 6);
+    glutTimerFunc(50, on_timer, 7);
     break;
   }
 }
@@ -266,17 +283,22 @@ static void on_display(void) {
       draw_truck();
     glPopMatrix();
 
+    /* Postavljamo sliku prvog automobila */
+    glPushMatrix();
+      glTranslatef(0, 3.5, car_one_movement);
+      draw_car();
+    glPopMatrix();
+
     /* Postavljamo sliku drugog kamiona */
     glPushMatrix();
-      glRotatef(180, 0, 1, 0);
-      glTranslatef(0, 4.5, truck_two_movement);
+      glTranslatef(8, 4.5, truck_two_movement);
       draw_truck();
     glPopMatrix();
 
-    /* Postavljamo sliku treceg kamiona */
+    /* Postavljamo sliku drugog automobila */
     glPushMatrix();
-      glTranslatef(8, 4.5, truck_three_movement);
-      draw_truck();
+      glTranslatef(15, 3.5, car_two_movement);
+      draw_car();
     glPopMatrix();
 
     /* Postavlja se nova slika u prozor. */

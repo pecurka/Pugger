@@ -230,3 +230,49 @@ void draw_truck(void) {
 
 #undef glutCube
 }
+
+void draw_car(void) {
+#define glutCube glutSolidCube
+
+  /* Crtamo glavni deo tela automobila*/
+  glColor3f(0, 0, 1);
+
+  glPushMatrix();
+    glRotatef(90, 0, 1, 0);
+    glScalef(1.2, 0.3, 0.6);
+    glutCube(8);
+  glPopMatrix();
+
+  /* Crtamo srednji deo automobila*/
+  glPushMatrix();
+    glRotatef(90, 0, 1, 0);
+    glTranslatef(0, 1, 0);
+    glScalef(0.6, 0.5, 0.6);
+    glutCube(8);
+  glPopMatrix();
+
+  /* Crtamo tockove */
+  glColor3f(0.05, 0.05, 0.05);
+
+  glPushMatrix();
+    glTranslatef(0.5, -2.5, 2.5);
+    draw_tire();
+  glPopMatrix();
+
+  glPushMatrix();
+    glTranslatef(-1.5, -2.5, 2.5);
+    draw_tire();
+  glPopMatrix();
+
+  glPushMatrix();
+    glTranslatef(0.5, -2.5, -2.5);
+    draw_tire();
+  glPopMatrix();
+
+  glPushMatrix();
+    glTranslatef(-1.5, -2.5, -2.5);
+    draw_tire();
+  glPopMatrix();
+
+#undef glutCube
+}
