@@ -48,4 +48,4 @@ Make truck model. <br /> <br />
 # 24.12.2016 Update Notes:
 Add car model. <br />
 Add vehicle movements and Pugger reset on impact. <br />
-![alt tag](https://github.com/MATF-RG16/RG16-006-plugger/blob/master/img/screenshot_2016-120-24.png)
+![alt tag](https://github.com/MATF-RG16/RG16-006-plugger/blob/master/img/screenshot_2016-12-24.png)
