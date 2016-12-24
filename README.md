@@ -5,10 +5,10 @@ Pugger
 This is my project for my Computer Graphics class. <br />
 The main goal is to create a Frogger replica with the playable character being a pug using OpenGL and C. <br />
 
-# :computer: Run program
+# :computer: Run program :computer:
 Enter the **/src** folder and run "make". <br /> <br />
 `make` <br /> <br />
-:exclamation: Make sure you have the OpenGL/Glut libraries installed! <br /> <br />
+:exclamation: Make sure you have the OpenGL/Glut libraries installed! :exclamation: <br /> <br />
 To run program enter:  <br /> <br />
 `./Pugger` <br /> <br />
 The program exits on ESC, the dog model moves on WASD <br />
@@ -44,3 +44,8 @@ Add grass texture to grass part of scene. <br />
 Refactor code. <br />
 Make truck model. <br /> <br />
 ![alt tag](https://github.com/MATF-RG16/RG16-006-plugger/blob/master/img/screenshot_2016-12-19.png)
+
+# 24.12.2016 Update Notes:
+Add car model. <br />
+Add vehicle movements and Pugger reset on impact. <br />
+![alt tag](https://github.com/MATF-RG16/RG16-006-plugger/blob/master/img/screenshot_2016-120-24.png)
