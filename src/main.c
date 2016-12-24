@@ -26,6 +26,7 @@ static int movementX;
 static int movementY;
 static int previousMovementX;
 static int previousMovementY;
+static int truck_one_movement;
 
 
 int main(int argc, char **argv) {
@@ -59,6 +60,10 @@ int main(int argc, char **argv) {
     movementY = 0;
     previousMovementX = movementX;
     previousMovementY = movementY;
+    truck_one_movement = -40;
+
+    /*Pokrecemo animaciju kamiona */
+    glutTimerFunc(50, on_timer, 4);
 
     /* Obavlja se OpenGL inicijalizacija. */
     glClearColor(0, 0, 0, 0);
@@ -177,6 +182,21 @@ static void on_timer(int value)
     if(previousMovementY + 5 != movementY)
       glutTimerFunc(20, on_timer, 3);
     break;
+  case 4: /* Postavlja se kretanje prvog kamiona */
+    /* Registruje udarac sa psom i vraca ga na pocetnu poziciju*/
+    if((movementX == -10 || movementX == -5) && truck_one_movement >  movementY - 9 && truck_one_movement < movementY + 6) {
+      movementX = -15;
+      movementY = 0;
+    }
+
+    if(truck_one_movement < 40)
+      truck_one_movement += 1;
+    else
+      truck_one_movement = -40;
+
+    glutPostRedisplay();
+    glutTimerFunc(50, on_timer, 4);
+    break;
   }
 }
 
@@ -208,7 +228,7 @@ static void on_display(void) {
 
     /* Postavljamo sliku kamiona */
     glPushMatrix();
-      glTranslatef(0, 4.5, 0);
+      glTranslatef(-8, 4.5, truck_one_movement);
       draw_truck();
     glPopMatrix();
 
