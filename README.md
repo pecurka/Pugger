@@ -55,7 +55,7 @@ Add vehicle movements and Pugger reset on impact. <br /> <br />
 ![alt tag](https://github.com/MATF-RG16/RG16-006-plugger/blob/master/img/screenshot_2016-12-24.png)
 
 # 25.12.2016 Update Notes:
-Resized scene to fit on whole screen. <br />
+Resized floor to fit on the whole scene. <br />
 Added death count and victory notice. <br />
 Stopped Pugger from running off screen. <br /> <br />
 ![alt tag](https://github.com/MATF-RG16/RG16-006-plugger/blob/master/img/screenshot_2016-12-25.png)
