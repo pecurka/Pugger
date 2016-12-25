@@ -285,3 +285,11 @@ void draw_death_counter(const unsigned char* string) {
   glRasterPos3f(25,6,25);
   glutBitmapString(GLUT_BITMAP_TIMES_ROMAN_24, string);
 }
+
+void draw_victory_announcement(const unsigned char* string) {
+  /* Postavlja boju i poziciju teksta u prostoru i iscrtava */
+  glColor3f(1, 1, 1);
+
+  glRasterPos3f(0,10,-5);
+  glutBitmapString(GLUT_BITMAP_TIMES_ROMAN_24, string);
+}

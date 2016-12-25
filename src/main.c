@@ -32,6 +32,7 @@ static int car_one_movement;
 static int car_two_movement;
 static int deaths;
 static char deathCount[10];
+static int isVictory;
 
 
 int main(int argc, char **argv) {
@@ -70,6 +71,7 @@ int main(int argc, char **argv) {
     car_one_movement = 40;
     car_two_movement = 40;
     deaths = 0;
+    isVictory = 0;
 
     /*Pokrecemo animaciju kamiona i automobila*/
     glutTimerFunc(50, on_timer, 4);
@@ -159,11 +161,31 @@ static void on_keyboard(unsigned char key, int x, int y)
     previousMovementY = movementY;
     glutTimerFunc(20, on_timer, 3);
     break;
+  case 'r':
+  case 'R':
+    /* Resetuje se igrica */
+    rotation = 0;
+    movementX = -15;
+    movementY = 0;
+    previousMovementX = movementX;
+    previousMovementY = movementY;
+    truck_one_movement = -40;
+    truck_two_movement = -40;
+    car_one_movement = 40;
+    car_two_movement = 40;
+    deaths = 0;
+    isVictory = 0;
+    break;
   }
 }
 
 static void on_timer(int value)
 {
+  /* Ako je pas stigao do kraja postavlja promenljivu na tacno i time je igrac pobedio */
+  if(movementX == 25) {
+    isVictory = 1;
+  }
+
   /* Gledamo koje dugme je pritisnuto i pomeramo psa u potrebnom pravcu i rotiramo ga u potreban smer */
   switch (value) {
   case 0:
@@ -310,6 +332,11 @@ static void on_display(void) {
       glTranslatef(15, 3.5, car_two_movement);
       draw_car();
     glPopMatrix();
+
+    /* Ako je korisnik pobedio iscrtava se tekst pobede */
+    if(isVictory == 1) {
+      draw_victory_announcement("VICTORY!\nTO REPLAY PRESS R.\nTO EXIT PRESS ESC.");
+    }
 
     /* Postavlja se nova slika u prozor. */
     glutSwapBuffers();

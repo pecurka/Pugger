@@ -17,4 +17,7 @@ void draw_car(void);
 /* Metod koja iscrtava broj smrti */
 void draw_death_counter(const unsigned char* string);
 
+/* Metod koja iscrtava tekst za pobedu */
+void draw_victory_announcement(const unsigned char* string);
+
 #endif
