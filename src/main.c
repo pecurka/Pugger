@@ -30,6 +30,8 @@ static int truck_one_movement;
 static int truck_two_movement;
 static int car_one_movement;
 static int car_two_movement;
+static int deaths;
+static char deathCount[10];
 
 
 int main(int argc, char **argv) {
@@ -67,6 +69,7 @@ int main(int argc, char **argv) {
     truck_two_movement = -40;
     car_one_movement = 40;
     car_two_movement = 40;
+    deaths = 0;
 
     /*Pokrecemo animaciju kamiona i automobila*/
     glutTimerFunc(50, on_timer, 4);
@@ -196,6 +199,7 @@ static void on_timer(int value)
     if((movementX == -10 || movementX == -5) && truck_one_movement >  movementY - 10 && truck_one_movement < movementY + 6) {
       movementX = -15;
       movementY = 0;
+      deaths++;
     }
 
     if(truck_one_movement < 40)
@@ -210,6 +214,7 @@ static void on_timer(int value)
     if(movementX == 0 && car_one_movement >  movementY - 6 && car_one_movement < movementY + 6) {
       movementX = -15;
       movementY = 0;
+      deaths++;
     }
 
     if(car_one_movement > -40)
@@ -224,6 +229,7 @@ static void on_timer(int value)
     if((movementX == 5 || movementX == 10) && truck_two_movement >  movementY - 10 && truck_two_movement < movementY + 6) {
       movementX = -15;
       movementY = 0;
+      deaths++;
     }
 
     if(truck_two_movement < 40)
@@ -238,6 +244,7 @@ static void on_timer(int value)
     if(movementX == 15 && car_two_movement >  movementY - 6 && car_two_movement < movementY + 6) {
       movementX = -15;
       movementY = 0;
+      deaths++;
     }
 
     if(car_two_movement > -40)
@@ -268,6 +275,9 @@ static void on_display(void) {
     /*Postavljamo okruzenje*/
     draw_floor(grassTexture);
 
+    /* Postavljamo brojac smrti */
+    sprintf(deathCount, "DEATHS: %d", deaths);
+    draw_death_counter(deathCount);
 
     /* Postavljamo sliku psa */
     glPushMatrix();

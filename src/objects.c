@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <math.h>
 #include <GL/glut.h>
+#include <GL/freeglut.h>
 #include "objects.h"
 
 #define PI 3.14
@@ -145,18 +146,18 @@ void draw_floor(GLuint grassTexture) {
   glPushMatrix();
     glBegin(GL_QUADS);
       glNormal3f(0, 1, 0);
-      glTexCoord2f(0, 0); glVertex3f(-20,0,-30);
-      glTexCoord2f(10, 0); glVertex3f(-12,0,-30);
-      glTexCoord2f(10, 10); glVertex3f(-12,0,30);
-      glTexCoord2f(0, 10); glVertex3f(-20,0,30);
+      glTexCoord2f(0, 0); glVertex3f(-20,0,-50);
+      glTexCoord2f(10, 0); glVertex3f(-12,0,-50);
+      glTexCoord2f(10, 10); glVertex3f(-12,0,50);
+      glTexCoord2f(0, 10); glVertex3f(-20,0,50);
     glEnd();
 
     glBegin(GL_QUADS);
       glNormal3f(0, 1, 0);
-      glTexCoord2f(0, 0); glVertex3f(20,0,-30);
-      glTexCoord2f(10, 0); glVertex3f(40,0,-30);
-      glTexCoord2f(10, 10);glVertex3f(40,0,30);
-      glTexCoord2f(0, 10); glVertex3f(20,0,30);
+      glTexCoord2f(0, 0); glVertex3f(20,0,-50);
+      glTexCoord2f(10, 0); glVertex3f(40,0,-50);
+      glTexCoord2f(10, 10);glVertex3f(40,0,50);
+      glTexCoord2f(0, 10); glVertex3f(20,0,50);
     glEnd();
 
     /* Gasi se tekstura i ponovo se pokrece osvetljenje*/
@@ -167,10 +168,10 @@ void draw_floor(GLuint grassTexture) {
     glColor3f(0.2,0.2,0.2);
     glBegin(GL_QUADS);
       glNormal3f(0, 1, 0);
-      glVertex3f(-12,0,-30);
-      glVertex3f(20,0,-30);
-      glVertex3f(20,0,30);
-      glVertex3f(-12,0,30);
+      glVertex3f(-12,0,-50);
+      glVertex3f(20,0,-50);
+      glVertex3f(20,0,50);
+      glVertex3f(-12,0,50);
     glEnd();
   glPopMatrix();
 }
@@ -275,4 +276,12 @@ void draw_car(void) {
   glPopMatrix();
 
 #undef glutCube
+}
+
+void draw_death_counter(const unsigned char* string) {
+  /* Postavlja boju i poziciju teksta u prostoru i iscrtava */
+  glColor3f(1, 1, 1);
+
+  glRasterPos3f(25,6,25);
+  glutBitmapString(GLUT_BITMAP_TIMES_ROMAN_24, string);
 }

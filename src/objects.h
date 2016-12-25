@@ -14,4 +14,7 @@ void draw_truck(void);
 /* Metod koji crta model automobila */
 void draw_car(void);
 
+/* Metod koja iscrtava broj smrti */
+void draw_death_counter(const unsigned char* string);
+
 #endif
