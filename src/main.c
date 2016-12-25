@@ -142,24 +142,33 @@ static void on_keyboard(unsigned char key, int x, int y)
     break;
   case 'w':
   case 'W':
-    /* pamti se prethodna pozicija i poziva se funkcija za iscrtavanje nove */
-    previousMovementX = movementX;
-    glutTimerFunc(20, on_timer, 0);
+    /* Pamti se prethodna pozicija i poziva se funkcija za iscrtavanje nove
+      Ne dopusta pomeranje unapred ako je pas stigao do kraja scene */
+    if(movementX < 30) {
+      previousMovementX = movementX;
+      glutTimerFunc(20, on_timer, 0);
+    }
     break;
   case 'a':
   case 'A':
-    previousMovementY = movementY;
-    glutTimerFunc(20, on_timer, 1);
+    if(movementY > -25) {
+      previousMovementY = movementY;
+      glutTimerFunc(20, on_timer, 1);
+    }
     break;
   case 's':
   case 'S':
-    previousMovementX = movementX;
-    glutTimerFunc(20, on_timer, 2);
+    if(movementX > -20) {
+      previousMovementX = movementX;
+      glutTimerFunc(20, on_timer, 2);
+    }
     break;
   case 'd':
   case 'D':
-    previousMovementY = movementY;
-    glutTimerFunc(20, on_timer, 3);
+    if(movementY < 25) {
+      previousMovementY = movementY;
+      glutTimerFunc(20, on_timer, 3);
+    }
     break;
   case 'r':
   case 'R':
@@ -288,7 +297,6 @@ static void on_display(void) {
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
     gluLookAt(-30, 40, 0, 0, 0, 0, 1, 0, 0);
-    /*gluLookAt(-30, 5, 0, 0, 0, 0, 1, 0, 0);*/
 
     /*Postavlja se pravac iz koga dolazi svetlost*/
     float l0pos[] = {-30.0f, 60.0f, 0.0f, 0.0f};

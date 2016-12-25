@@ -11,7 +11,9 @@ Enter the **/src** folder and run "make". <br /> <br />
 :exclamation: Make sure you have the OpenGL/Glut libraries installed! :exclamation: <br /> <br />
 To run program enter:  <br /> <br />
 `./Pugger` <br /> <br />
-The program exits on ESC, the dog model moves on WASD <br />
+The program exits on ESC. <br />
+The dog model moves on WASD <br />
+The game resets on R <br /> <br />
 
 # 22.10.2016 Update Notes:
 Added main file for project. <br />
