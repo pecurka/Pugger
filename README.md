@@ -60,3 +60,8 @@ Added death count and victory notice. <br />
 Stopped Pugger from running off screen. <br /> <br />
 ![alt tag](https://github.com/MATF-RG16/RG16-006-plugger/blob/master/img/screeshot_2016-12-25.png)
 ![alt tag](https://github.com/MATF-RG16/RG16-006-plugger/blob/master/img/screenshot_2016-12-25_2.png)
+
+# 26.12.2016 Update Notes:
+Change vehicle speed to different values. <br />
+Fix bug where Pugger runs off screen. <br />
+Fix fullscreen bug and Pugger movement boundaries. <br /> <br />
