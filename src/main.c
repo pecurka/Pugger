@@ -26,6 +26,7 @@ static int movementX;
 static int movementY;
 static int previousMovementX;
 static int previousMovementY;
+static int isMoving;
 static int truck_one_movement;
 static int truck_two_movement;
 static int car_one_movement;
@@ -66,6 +67,7 @@ int main(int argc, char **argv) {
     movementY = 0;
     previousMovementX = movementX;
     previousMovementY = movementY;
+    isMoving = 0;
     truck_one_movement = -40;
     truck_two_movement = -40;
     car_one_movement = 40;
@@ -144,28 +146,32 @@ static void on_keyboard(unsigned char key, int x, int y)
   case 'W':
     /* Pamti se prethodna pozicija i poziva se funkcija za iscrtavanje nove
       Ne dopusta pomeranje unapred ako je pas stigao do kraja scene */
-    if(movementX < 30) {
+    if(movementX < 30 && isVictory == 0 && isMoving == 0) {
+      isMoving = 1; /* Stops Pugger from going into infinite loop while moving and running off the screen*/
       previousMovementX = movementX;
       glutTimerFunc(20, on_timer, 0);
     }
     break;
   case 'a':
   case 'A':
-    if(movementY > -30) {
+    if(movementY > -30 && isVictory == 0 && isMoving == 0) {
+      isMoving = 1;
       previousMovementY = movementY;
       glutTimerFunc(20, on_timer, 1);
     }
     break;
   case 's':
   case 'S':
-    if(movementX > -20) {
+    if(movementX > -20 && isVictory == 0 && isMoving == 0) {
+      isMoving = 1;
       previousMovementX = movementX;
       glutTimerFunc(20, on_timer, 2);
     }
     break;
   case 'd':
   case 'D':
-    if(movementY < 30) {
+    if(movementY < 30 && isVictory == 0 && isMoving == 0) {
+      isMoving = 1;
       previousMovementY = movementY;
       glutTimerFunc(20, on_timer, 3);
     }
@@ -178,6 +184,7 @@ static void on_keyboard(unsigned char key, int x, int y)
     movementY = 0;
     previousMovementX = movementX;
     previousMovementY = movementY;
+    isMoving = 0;
     truck_one_movement = -40;
     truck_two_movement = -40;
     car_one_movement = 40;
@@ -203,6 +210,8 @@ static void on_timer(int value)
     glutPostRedisplay();
     if(previousMovementX + 5 != movementX) /* Da bi kretanje izgleda 'glatko' teramo da ponavlja isrtavanje dok se ne pomeri do zeljene lokacije */
       glutTimerFunc(20, on_timer, 0);
+    else
+      isMoving = 0;
     break;
   case 1:
     rotation = 90;
@@ -210,6 +219,8 @@ static void on_timer(int value)
     glutPostRedisplay();
     if(previousMovementY - 5 != movementY)
       glutTimerFunc(20, on_timer, 1);
+    else
+      isMoving = 0;
     break;
   case 2:
     rotation = 180;
@@ -217,6 +228,8 @@ static void on_timer(int value)
     glutPostRedisplay();
     if(previousMovementX - 5 != movementX)
       glutTimerFunc(20, on_timer, 2);
+    else
+      isMoving = 0;
     break;
   case 3:
     rotation = 270;
@@ -224,6 +237,8 @@ static void on_timer(int value)
     glutPostRedisplay();
     if(previousMovementY + 5 != movementY)
       glutTimerFunc(20, on_timer, 3);
+    else
+      isMoving = 0;
     break;
   case 4: /* Postavlja se kretanje prvog kamiona */
     /* Registruje udarac sa psom i vraca ga na pocetnu poziciju*/
