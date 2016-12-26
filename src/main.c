@@ -20,7 +20,8 @@ static void on_timer(int value);
 /* Inicijalizacija teksture trave */
 static void initializeTexture(void);
 
-/*Deklaracija promenljive za rotaciju i kretanje modela psa*/
+/*Deklaracija promenljive za rotaciju i kretanje modela psa, kretanje vozila
+  kao i ostale bitne podatke */
 static int rotation;
 static int movementX;
 static int movementY;
@@ -147,7 +148,7 @@ static void on_keyboard(unsigned char key, int x, int y)
     /* Pamti se prethodna pozicija i poziva se funkcija za iscrtavanje nove
       Ne dopusta pomeranje unapred ako je pas stigao do kraja scene */
     if(movementX < 30 && isVictory == 0 && isMoving == 0) {
-      isMoving = 1; /* Stops Pugger from going into infinite loop while moving and running off the screen*/
+      isMoving = 1; /* Sprecava Pugger da pobegne sa ekrana ako se vec krece */
       previousMovementX = movementX;
       glutTimerFunc(20, on_timer, 0);
     }
