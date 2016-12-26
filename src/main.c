@@ -74,10 +74,10 @@ int main(int argc, char **argv) {
     isVictory = 0;
 
     /*Pokrecemo animaciju kamiona i automobila*/
-    glutTimerFunc(50, on_timer, 4);
-    glutTimerFunc(50, on_timer, 5);
+    glutTimerFunc(80, on_timer, 4);
+    glutTimerFunc(40, on_timer, 5);
     glutTimerFunc(50, on_timer, 6);
-    glutTimerFunc(50, on_timer, 7);
+    glutTimerFunc(60, on_timer, 7);
 
     /* Obavlja se OpenGL inicijalizacija. */
     glClearColor(0, 0, 0, 0);
@@ -151,7 +151,7 @@ static void on_keyboard(unsigned char key, int x, int y)
     break;
   case 'a':
   case 'A':
-    if(movementY > -25) {
+    if(movementY > -30) {
       previousMovementY = movementY;
       glutTimerFunc(20, on_timer, 1);
     }
@@ -165,7 +165,7 @@ static void on_keyboard(unsigned char key, int x, int y)
     break;
   case 'd':
   case 'D':
-    if(movementY < 25) {
+    if(movementY < 30) {
       previousMovementY = movementY;
       glutTimerFunc(20, on_timer, 3);
     }
@@ -233,13 +233,13 @@ static void on_timer(int value)
       deaths++;
     }
 
-    if(truck_one_movement < 40)
+    if(truck_one_movement < 50)
       truck_one_movement += 1;
     else
-      truck_one_movement = -40;
+      truck_one_movement = -50;
 
     glutPostRedisplay();
-    glutTimerFunc(50, on_timer, 4);
+    glutTimerFunc(80, on_timer, 4);
     break;
   case 5: /* Postavlja se kretanje prvog automobila */
     if(movementX == 0 && car_one_movement >  movementY - 6 && car_one_movement < movementY + 6) {
@@ -248,13 +248,13 @@ static void on_timer(int value)
       deaths++;
     }
 
-    if(car_one_movement > -40)
+    if(car_one_movement > -50)
       car_one_movement -= 1;
     else
-      car_one_movement = 40;
+      car_one_movement = 50;
 
     glutPostRedisplay();
-    glutTimerFunc(50, on_timer, 5);
+    glutTimerFunc(40, on_timer, 5);
     break;
   case 6: /* Postavlja se kretanje drugog kamiona */
     if((movementX == 5 || movementX == 10) && truck_two_movement >  movementY - 10 && truck_two_movement < movementY + 6) {
@@ -263,10 +263,10 @@ static void on_timer(int value)
       deaths++;
     }
 
-    if(truck_two_movement < 40)
+    if(truck_two_movement < 50)
       truck_two_movement += 1;
     else
-      truck_two_movement = -40;
+      truck_two_movement = -50;
 
     glutPostRedisplay();
     glutTimerFunc(50, on_timer, 6);
@@ -278,13 +278,13 @@ static void on_timer(int value)
       deaths++;
     }
 
-    if(car_two_movement > -40)
+    if(car_two_movement > -50)
       car_two_movement -= 1;
     else
-      car_two_movement = 40;
+      car_two_movement = 50;
 
     glutPostRedisplay();
-    glutTimerFunc(50, on_timer, 7);
+    glutTimerFunc(60, on_timer, 7);
     break;
   }
 }
