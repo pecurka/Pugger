@@ -6,8 +6,7 @@ This is my project for my Computer Graphics class. <br />
 The main goal is to create a Frogger replica with the playable character being a pug using OpenGL and C. <br />
 
 # :computer: Run program :computer:
-Enter the **/src** folder and run "make". <br /> <br />
-`make` <br /> <br />
+Enter the **/src** folder and run `make` <br /> <br />
 :exclamation: Make sure you have the OpenGL/Glut libraries installed! :exclamation: <br /> <br />
 To run program enter:  <br /> <br />
 `./Pugger` <br /> <br />
@@ -57,7 +56,7 @@ Add vehicle movements and Pugger reset on impact. <br /> <br />
 # 25.12.2016 Update Notes:
 Resized floor to fit on the whole scene. <br />
 Added death count and victory notice. <br />
-Stopped Pugger from running off screen. <br /> <br />
+Stopped Pugger from leaving screen. <br /> <br />
 ![alt tag](https://github.com/MATF-RG16/RG16-006-plugger/blob/master/img/screeshot_2016-12-25.png)
 ![alt tag](https://github.com/MATF-RG16/RG16-006-plugger/blob/master/img/screenshot_2016-12-25_2.png)
 
