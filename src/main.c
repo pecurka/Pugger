@@ -31,7 +31,7 @@ static int movementY;
 static int previousMovementX;
 static int previousMovementY;
 static int isMoving;
-static int numberOfVehicles = 4; /* Change this number to add more vehicles */
+static int numberOfVehicles = 4; /* Promeniti ovaj broj da bi se promenio broj vozila */
 static Vehicle *vehicles;
 static int deaths;
 static char deathCount[10];
