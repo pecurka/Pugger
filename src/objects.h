@@ -1,6 +1,14 @@
 #ifndef _H_OBJECTS_H_
 #define _H_OBJECTS_H_
 
+/* Struktura koja pamti tip vozila (auto ili kamion), u kojoj je traci i
+   trenutnu poziciju */
+typedef struct Vehicle {
+  unsigned int typeOfVehicle;
+  unsigned int lane;
+  int position;
+} Vehicle;
+
 
 /* Metod koji crta model  psa */
 void draw_dog(void);

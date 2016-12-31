@@ -20,6 +20,9 @@ static void on_timer(int value);
 /* Inicijalizacija teksture trave */
 static void initializeTexture(void);
 
+/* Iicijalizuju se vozila */
+static void initializeVehicles(void);
+
 /*Deklaracija promenljive za rotaciju i kretanje modela psa, kretanje vozila
   kao i ostale bitne podatke */
 static int rotation;
@@ -28,10 +31,8 @@ static int movementY;
 static int previousMovementX;
 static int previousMovementY;
 static int isMoving;
-static int truck_one_movement;
-static int truck_two_movement;
-static int car_one_movement;
-static int car_two_movement;
+static int numberOfVehicles = 4;
+static Vehicle *vehicles;
 static int deaths;
 static char deathCount[10];
 static int isVictory;
@@ -69,18 +70,13 @@ int main(int argc, char **argv) {
     previousMovementX = movementX;
     previousMovementY = movementY;
     isMoving = 0;
-    truck_one_movement = -40;
-    truck_two_movement = -40;
-    car_one_movement = 40;
-    car_two_movement = 40;
     deaths = 0;
     isVictory = 0;
+    vehicles = malloc(numberOfVehicles * sizeof(Vehicle));
+    initializeVehicles();
 
     /*Pokrecemo animaciju kamiona i automobila*/
-    glutTimerFunc(80, on_timer, 4);
-    glutTimerFunc(40, on_timer, 5);
-    glutTimerFunc(50, on_timer, 6);
-    glutTimerFunc(60, on_timer, 7);
+    glutTimerFunc(60, on_timer, 4);
 
     /* Obavlja se OpenGL inicijalizacija. */
     glClearColor(0, 0, 0, 0);
@@ -94,6 +90,23 @@ int main(int argc, char **argv) {
     glutMainLoop();
 
     return 0;
+}
+
+static void initializeVehicles(void) {
+  /* Inicijalizuje se niz vozila */
+  int i;
+
+  for(i = 0; i < numberOfVehicles; i++) {
+    if(i % 4 == 0 || i % 4 == 2) {
+      vehicles[i].typeOfVehicle = 0;
+      vehicles[i].position = -50 + (i/4) * 25;
+    } else {
+      vehicles[i].typeOfVehicle = 1;
+      vehicles[i].position = 50 + (i/4) * 25;
+    }
+
+    vehicles[i].lane = i % 4;
+  }
 }
 
 static void initializeTexture(void)
@@ -186,18 +199,16 @@ static void on_keyboard(unsigned char key, int x, int y)
     previousMovementX = movementX;
     previousMovementY = movementY;
     isMoving = 0;
-    truck_one_movement = -40;
-    truck_two_movement = -40;
-    car_one_movement = 40;
-    car_two_movement = 40;
     deaths = 0;
     isVictory = 0;
+    initializeVehicles();
     break;
   }
 }
 
-static void on_timer(int value)
-{
+static void on_timer(int value) {
+  int i;
+
   /* Ako je pas stigao do kraja postavlja promenljivu na tacno i time je igrac pobedio */
   if(movementX == 25) {
     isVictory = 1;
@@ -241,66 +252,54 @@ static void on_timer(int value)
     else
       isMoving = 0;
     break;
-  case 4: /* Postavlja se kretanje prvog kamiona */
-    /* Registruje udarac sa psom i vraca ga na pocetnu poziciju*/
-    if((movementX == -10 || movementX == -5) && truck_one_movement >  movementY - 10 && truck_one_movement < movementY + 6) {
-      movementX = -15;
-      movementY = 0;
-      deaths++;
+  /* Postavlja se kretanje vozila */
+  case 4:
+    /* Prolazimo kroz svako vozilo i proveravamo da li je pas udaren */
+    for(i = 0; i < numberOfVehicles; i++) {
+      int isHit = 0;
+
+      switch (vehicles[i].lane) {
+      case 0:
+        if((movementX == -10 || movementX == -5) && vehicles[i].position >  movementY - 10 && vehicles[i].position < movementY + 6)
+          isHit = 1;
+        break;
+      case 1:
+        if(movementX == 0 && vehicles[i].position >  movementY - 6 && vehicles[i].position < movementY + 6)
+          isHit = 1;
+        break;
+      case 2:
+        if((movementX == 5 || movementX == 10) && vehicles[i].position >  movementY - 10 && vehicles[i].position < movementY + 6)
+          isHit = 1;
+        break;
+      case 3:
+        if(movementX == 15 && vehicles[i].position >  movementY - 6 && vehicles[i].position < movementY + 6)
+          isHit = 1;
+        break;
+      }
+
+      /* Ako je pas udaren vracamo ga na pocetak igre i registrujemo smrt */
+      if(isHit) {
+        movementX = -15;
+        movementY = 0;
+        deaths++;
+      }
+
+      /* Pomeramo vozilo */
+      if(vehicles[i].typeOfVehicle == 0) {
+        if(vehicles[i].position < 50)
+          vehicles[i].position += 1;
+        else
+          vehicles[i].position = -50;
+      } else {
+        if(vehicles[i].position > -50)
+          vehicles[i].position -= 1;
+        else
+          vehicles[i].position = 50;
+      }
     }
 
-    if(truck_one_movement < 50)
-      truck_one_movement += 1;
-    else
-      truck_one_movement = -50;
-
     glutPostRedisplay();
-    glutTimerFunc(80, on_timer, 4);
-    break;
-  case 5: /* Postavlja se kretanje prvog automobila */
-    if(movementX == 0 && car_one_movement >  movementY - 6 && car_one_movement < movementY + 6) {
-      movementX = -15;
-      movementY = 0;
-      deaths++;
-    }
-
-    if(car_one_movement > -50)
-      car_one_movement -= 1;
-    else
-      car_one_movement = 50;
-
-    glutPostRedisplay();
-    glutTimerFunc(40, on_timer, 5);
-    break;
-  case 6: /* Postavlja se kretanje drugog kamiona */
-    if((movementX == 5 || movementX == 10) && truck_two_movement >  movementY - 10 && truck_two_movement < movementY + 6) {
-      movementX = -15;
-      movementY = 0;
-      deaths++;
-    }
-
-    if(truck_two_movement < 50)
-      truck_two_movement += 1;
-    else
-      truck_two_movement = -50;
-
-    glutPostRedisplay();
-    glutTimerFunc(50, on_timer, 6);
-    break;
-  case 7: /* Postavlja se kretanje drugog automobila */
-    if(movementX == 15 && car_two_movement >  movementY - 6 && car_two_movement < movementY + 6) {
-      movementX = -15;
-      movementY = 0;
-      deaths++;
-    }
-
-    if(car_two_movement > -50)
-      car_two_movement -= 1;
-    else
-      car_two_movement = 50;
-
-    glutPostRedisplay();
-    glutTimerFunc(60, on_timer, 7);
+    glutTimerFunc(60, on_timer, 4);
     break;
   }
 }
@@ -333,29 +332,43 @@ static void on_display(void) {
       draw_dog();
     glPopMatrix();
 
-    /* Postavljamo sliku prvog kamiona */
-    glPushMatrix();
-      glTranslatef(-8, 4.5, truck_one_movement);
-      draw_truck();
-    glPopMatrix();
+    /* Postavljamo sliku vozila */
+    int i;
 
-    /* Postavljamo sliku prvog automobila */
-    glPushMatrix();
-      glTranslatef(0, 3.5, car_one_movement);
-      draw_car();
-    glPopMatrix();
+    for(i = 0; i < numberOfVehicles; i++) {
+      int lane;
+      float heightOfVehicle;
 
-    /* Postavljamo sliku drugog kamiona */
-    glPushMatrix();
-      glTranslatef(8, 4.5, truck_two_movement);
-      draw_truck();
-    glPopMatrix();
+      /* Gledamo u kojoj je traci vozilo i postavljamo vrednost x za translaciju */
+      switch (vehicles[i].lane) {
+        case 0:
+          lane = -8;
+          break;
+        case 1:
+          lane = 0;
+          break;
+        case 2:
+          lane = 8;
+          break;
+        case 3:
+          lane = 15;
+          break;
+      }
 
-    /* Postavljamo sliku drugog automobila */
-    glPushMatrix();
-      glTranslatef(15, 3.5, car_two_movement);
-      draw_car();
-    glPopMatrix();
+      /* Gledamo koje je vrste vozilo i postavljamo vrednost y za translaciju */
+      if(vehicles[i].typeOfVehicle == 0)
+        heightOfVehicle = 4.5;
+      else
+        heightOfVehicle = 3.5;
+
+      glPushMatrix();
+        glTranslatef(lane, heightOfVehicle, vehicles[i].position);
+        if(vehicles[i].typeOfVehicle == 0)
+          draw_truck();
+        else
+          draw_car();
+      glPopMatrix();
+    }
 
     /* Ako je korisnik pobedio iscrtava se tekst pobede */
     if(isVictory == 1) {

@@ -64,3 +64,8 @@ Stopped Pugger from leaving screen. <br /> <br />
 Change vehicle speed to different values. <br />
 Fix bug where Pugger runs off screen. <br />
 Fix fullscreen bug and Pugger movement boundaries. <br /> <br />
+
+# 31.12.2016 Update Notes:
+Add vehicle structure. <br />
+Refactor code to use vehicle structure. <br />
+Now user can change number of vehicles to any number. <br /> <br />
