@@ -31,7 +31,7 @@ static int movementY;
 static int previousMovementX;
 static int previousMovementY;
 static int isMoving;
-static int numberOfVehicles = 4; /* Promeniti ovaj broj da bi se promenio broj vozila */
+static int numberOfVehicles = 12; /* Promeniti ovaj broj da bi se promenio broj vozila */
 static Vehicle *vehicles;
 static int deaths;
 static char deathCount[10];
@@ -99,10 +99,10 @@ static void initializeVehicles(void) {
   for(i = 0; i < numberOfVehicles; i++) {
     if(i % 4 == 0 || i % 4 == 2) {
       vehicles[i].typeOfVehicle = 0;
-      vehicles[i].position = -50 + (i/4) * 25;
+      vehicles[i].position = -50 + (i/4) * 30;
     } else {
       vehicles[i].typeOfVehicle = 1;
-      vehicles[i].position = 50 + (i/4) * 25;
+      vehicles[i].position = 50 + (i/4) * 30;
     }
 
     vehicles[i].lane = i % 4;
