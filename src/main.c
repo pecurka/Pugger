@@ -20,7 +20,10 @@ static void on_timer(int value);
 /* Inicijalizacija teksture trave */
 static void initializeTexture(void);
 
-/* Iicijalizuju se vozila */
+/* Inicijalizuju se promenljive */
+static void initializeVariables(void);
+
+/* Inicijalizuju se vozila */
 static void initializeVehicles(void);
 
 /*Deklaracija promenljive za rotaciju i kretanje modela psa, kretanje vozila
@@ -64,15 +67,7 @@ int main(int argc, char **argv) {
     glEnable(GL_COLOR_MATERIAL);
 
     /*Inicijalizuju se globalne promenljive*/
-    rotation = 0;
-    movementX = -15;
-    movementY = 0;
-    previousMovementX = movementX;
-    previousMovementY = movementY;
-    isMoving = 0;
-    deaths = 0;
-    isVictory = 0;
-    vehicles = malloc(numberOfVehicles * sizeof(Vehicle));
+    initializeVariables();
     initializeVehicles();
 
     /*Pokrecemo animaciju kamiona i automobila*/
@@ -90,6 +85,18 @@ int main(int argc, char **argv) {
     glutMainLoop();
 
     return 0;
+}
+
+static void initializeVariables(void) {
+  rotation = 0;
+  movementX = -15;
+  movementY = 0;
+  previousMovementX = movementX;
+  previousMovementY = movementY;
+  isMoving = 0;
+  deaths = 0;
+  isVictory = 0;
+  vehicles = malloc(numberOfVehicles * sizeof(Vehicle));
 }
 
 static void initializeVehicles(void) {
@@ -193,14 +200,7 @@ static void on_keyboard(unsigned char key, int x, int y)
   case 'r':
   case 'R':
     /* Resetuje se igrica */
-    rotation = 0;
-    movementX = -15;
-    movementY = 0;
-    previousMovementX = movementX;
-    previousMovementY = movementY;
-    isMoving = 0;
-    deaths = 0;
-    isVictory = 0;
+    initializeVariables();
     initializeVehicles();
     break;
   }
