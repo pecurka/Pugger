@@ -1,5 +1,4 @@
-# 006-pugger
-Pugger
+# Pugger
 
 # Project Description
 This is my project for my Computer Graphics class. <br />
